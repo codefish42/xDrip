@@ -280,7 +280,7 @@
     <string name="special_value">Besonderer Wert</string>
     <string name="history">Historie</string>
     <string name="statistics">Statistiken</string>
-    <string name="snooze_alert">Snooze Alarm</string>
+    <string name="snooze_alert">Schlummern Alarm</string>
     <string name="less_common_settings">Erweiterte Einstellungen</string>
     <string name="view_recent_errors_warnings">Letzte Fehler/Warnungen anzeigen</string>
     <string name="other_settings">Weitere Einstellungen</string>
