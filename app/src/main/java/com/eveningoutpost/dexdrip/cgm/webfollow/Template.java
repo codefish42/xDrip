@@ -3,8 +3,8 @@ package com.eveningoutpost.dexdrip.cgm.webfollow;
 import static com.eveningoutpost.dexdrip.utils.DexCollectionType.Disabled;
 import static com.eveningoutpost.dexdrip.utils.DexCollectionType.setDexCollectionType;
 
-import com.eveningoutpost.dexdrip.Models.JoH;
-import com.eveningoutpost.dexdrip.Models.UserError;
+import com.eveningoutpost.dexdrip.models.JoH;
+import com.eveningoutpost.dexdrip.models.UserError;
 import com.google.common.primitives.Bytes;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class Template {
     private static final String TAG = "WebFollow" + Template.class.getSimpleName();
     private static final String SCHEME = "https://";
     private static final String PREFIX = "community-script";
-    private static final String SUFFIX = "net";
+    private static final String SUFFIX = "net/v2";
     private static final String DOT = ".";
 
     private static byte[] getData() {

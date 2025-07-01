@@ -1,6 +1,7 @@
 package com.eveningoutpost.dexdrip.ui;
 
 
+import static com.eveningoutpost.dexdrip.xdrip.gs;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.file.FileVisitResult.CONTINUE;
 
@@ -37,7 +38,7 @@ public class TranslationTest extends RobolectricTestWithConfig {
     public void testFormatStrings() throws IOException {
         val config = xdrip.getAppContext().getResources().getConfiguration();
         val internal = xdrip.getAppContext().getResources().getStringArray(R.array.LocaleChoicesValues);
-        val extra = new String[]{"ar", "cs", "de", "el", "en", "es", "fi", "fr", "he", "hr", "it", "iw", "ja", "ko", "nb", "nl", "no", "pl", "pt", "ro", "ru", "sk", "sl", "sv", "tr", "zh"};
+        val extra = new String[]{"ar", "cs", "de", "el", "en", "es", "fi", "fr", "he", "hr", "it", "iw", "ja", "ko", "nb", "nl", "pl", "pt", "ro", "ru", "sk", "sl", "sv", "tr", "zh"};
         val inset = "^values-";
         Set<String> locales = new TreeSet<>(Arrays.asList(internal));
         class ResourceLocaleParser implements FileVisitor<Path> {
@@ -83,7 +84,7 @@ public class TranslationTest extends RobolectricTestWithConfig {
 
             try {
                 // check minutes ago days
-                fmt = xdrip.gs(R.string.minutes_ago);
+                fmt = gs(R.string.minutes_ago);
                 result = MessageFormat.format(fmt, 123);
                 assertWithMessage("minutes_ago choice message format failed to contain value").that(result).contains("123");
             } catch (IllegalArgumentException e) {
@@ -93,13 +94,17 @@ public class TranslationTest extends RobolectricTestWithConfig {
 
             try {
                 // check expires days
-                fmt = xdrip.gs(R.string.expires_days);
+                fmt = gs(R.string.expires_days);
                 result = MessageFormat.format(fmt, 123.4f);
                 assertWithMessage("expires_days choice message format failed to contain value").that(result).contains("123.4");
             } catch (IllegalArgumentException e) {
                 restoreLocale();
                 throw new RuntimeException("Failed expires days test with language " + language + " with exception: " + e);
             }
+
+            assertWithMessage("megabyte format " + language).that(gs(R.string.megabyte_format_string)).contains("%.1f");
+            assertWithMessage("time format " + language).that(gs(R.string.format_string_ago)).contains("%s");
+
         }
 
         restoreLocale();

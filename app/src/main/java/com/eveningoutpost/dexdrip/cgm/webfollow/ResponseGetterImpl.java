@@ -1,7 +1,7 @@
 package com.eveningoutpost.dexdrip.cgm.webfollow;
 
-import com.eveningoutpost.dexdrip.Models.JoH;
-import com.eveningoutpost.dexdrip.Models.UserError;
+import com.eveningoutpost.dexdrip.models.JoH;
+import com.eveningoutpost.dexdrip.models.UserError;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -53,10 +53,14 @@ public class ResponseGetterImpl implements ResponseGetter {
         val builder = new Request.Builder();
         builder.url(c.url + ((c.query != null) ? "?" + c.query : ""));
         builder.header("User-Agent", c.agent);
+        builder.header("cache-control", "no-cache");
         builder.header("version", c.version);
         builder.header("product", c.product);
         if (c.authorization != null) {
             builder.header("Authorization", c.authorization);
+        }
+        if (c.hname != null && c.hvalue != null) {
+            builder.header(c.hname, c.hvalue);
         }
         if (c.body != null) {
             builder.post(c.body);

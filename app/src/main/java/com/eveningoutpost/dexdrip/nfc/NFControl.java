@@ -7,8 +7,8 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 
 import com.eveningoutpost.dexdrip.glucosemeter.glucomen.GlucoMen;
-import com.eveningoutpost.dexdrip.Models.JoH;
-import com.eveningoutpost.dexdrip.Models.UserError;
+import com.eveningoutpost.dexdrip.models.JoH;
+import com.eveningoutpost.dexdrip.models.UserError;
 import com.eveningoutpost.dexdrip.NFCReaderX;
 import com.eveningoutpost.dexdrip.R;
 import com.eveningoutpost.dexdrip.insulin.opennov.Options;
@@ -40,9 +40,9 @@ public class NFControl {
         }
 
         if (GlucoMen.isEnabled()) {
-                flags |= NfcAdapter.FLAG_READER_NFC_V
-                        | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK
-                        | NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS;
+            flags |= NfcAdapter.FLAG_READER_NFC_V
+                    | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK
+                    | NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS;
         }
 
         return flags;
@@ -58,7 +58,11 @@ public class NFControl {
         }
     }
 
-    public static void initNFC(final Activity context, final boolean disable) {
+    public static void initNFCbackground(final Activity context, final boolean disable) {
+        new Thread(() -> NFControl.initNFC(context, disable)).start();
+    }
+
+    public static synchronized void initNFC(final Activity context, final boolean disable) {
         UserError.Log.d(TAG, "InitNFC start");
         val mNfcAdapter = NfcAdapter.getDefaultAdapter(context);
         val flags = disable ? 0 : getReaderFlags();
@@ -93,11 +97,19 @@ public class NFControl {
             }
 
             UserError.Log.d(TAG, "Enabling reader mode with flags: " + flags);
-            mNfcAdapter.enableReaderMode(context, new TagMultiplexer(context), flags, getOptionsBundle());
+            try {
+                mNfcAdapter.enableReaderMode(context, new TagMultiplexer(context), flags, getOptionsBundle());
+            } catch (Exception e) {
+                UserError.Log.e(TAG, "Got exception enabling reader mode: " + e);
+            }
         } else {
             if (mNfcAdapter != null) {
                 UserError.Log.d(TAG, "Disabling reader mode");
-                mNfcAdapter.disableReaderMode(context);
+                try {
+                    mNfcAdapter.disableReaderMode(context);
+                } catch (Exception e) {
+                    UserError.Log.e(TAG, "Got exception disabling reader mode: " + e);
+                }
             }
         }
     }

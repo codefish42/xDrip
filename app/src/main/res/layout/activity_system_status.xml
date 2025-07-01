@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="ms" type="com.eveningoutpost.dexdrip.ui.MicroStatus"/>
         <import type="android.view.View"/>
@@ -65,7 +66,7 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data Source:"
+                    android:text="@string/data_source"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <TextView
@@ -78,8 +79,29 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_dbsize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/database_size"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <TextView
+                    android:id="@+id/db_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/layout_device"
-                android:visibility="@{ms.bluetooth() ? View.VISIBLE : View.GONE}"
+                app:showIfTrue="@{ms.bluetooth()}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -103,7 +125,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_status"
-                android:visibility="@{ms.bluetooth() ? View.VISIBLE : View.GONE}"
+                app:showIfTrue="@{ms.bluetooth()}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -128,6 +150,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_sensor"
+                app:showIfTrue="@{ms.sessionStartTime()}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -153,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="@{ms.xmitterBattery() ? View.VISIBLE : View.GONE}"
+                app:showIfTrue="@{ms.xmitterBattery()}"
                 android:paddingTop="10dp">
 
                 <TextView
@@ -208,14 +231,15 @@
                         android:id="@+id/restart_collection_service"
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/restart_collector" />
 
                     <Button
                         android:id="@+id/forget_device"
+                        app:showIfTrue="@{ms.bluetooth()}"
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/forget_device" />
                 </LinearLayout>
 

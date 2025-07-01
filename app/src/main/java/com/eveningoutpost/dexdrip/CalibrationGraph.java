@@ -3,8 +3,9 @@ package com.eveningoutpost.dexdrip;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -12,11 +13,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.eveningoutpost.dexdrip.Models.Calibration;
-import com.eveningoutpost.dexdrip.Models.JoH;
-import com.eveningoutpost.dexdrip.UtilityModels.CalibrationSendQueue;
-import com.eveningoutpost.dexdrip.UtilityModels.Constants;
-import com.eveningoutpost.dexdrip.UtilityModels.Pref;
+import com.eveningoutpost.dexdrip.models.Calibration;
+import com.eveningoutpost.dexdrip.models.JoH;
+import com.eveningoutpost.dexdrip.utilitymodels.CalibrationSendQueue;
+import com.eveningoutpost.dexdrip.utilitymodels.Constants;
+import com.eveningoutpost.dexdrip.utilitymodels.Pref;
 import com.eveningoutpost.dexdrip.calibrations.CalibrationAbstract;
 import com.eveningoutpost.dexdrip.utils.ActivityWithMenu;
 
@@ -87,7 +88,7 @@ public class CalibrationGraph extends ActivityWithMenu {
             DecimalFormat df = new DecimalFormat("#");
             df.setMaximumFractionDigits(2);
             df.setMinimumFractionDigits(2);
-            String Header = "slope = " + df.format(calibration.slope) + " intercept = " + df.format(calibration.intercept);
+            String Header = getString(R.string.calibration_slope_intercept, df.format(calibration.slope), df.format(calibration.intercept));
             GraphHeader.setText(Header);
 
             //red line
@@ -132,8 +133,8 @@ public class CalibrationGraph extends ActivityWithMenu {
         }
         Axis axisX = new Axis();
         Axis axisY = new Axis().setHasLines(true);
-        axisX.setName("Raw Value");
-        axisY.setName("Glucose " + (doMgdl ? "mg/dl" : "mmol/l"));
+        axisX.setName(getString(R.string.axis_x_raw_value));
+        axisY.setName(getString(R.string.axis_y_glucose_mgdl_mmol, (doMgdl ? "mg/dl" : "mmol/l")));
 
 
         data = new LineChartData(lines);
